@@ -36,3 +36,11 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/** This function causes the new story form to appear on the page. */
+
+function showNewStoryForm(){
+  $("#nav-form").attr("display", "block");
+}
+
+$("#nav-submit").on("click", showNewStoryForm)

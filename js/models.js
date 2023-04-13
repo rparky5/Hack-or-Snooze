@@ -74,11 +74,12 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    //debugger;
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
-      params: {
-          token: user.token,
+      data: {
+          token: user.loginToken,
           story: {
               author: newStory.author,
               title: newStory.title,
@@ -87,7 +88,9 @@ class StoryList {
       }
     });
 
-    const data = response.story;
+
+
+    const data = response.data.story;
     return new Story(data.storyId, data.title, data.author, data.url, data.username, data.createdAt)
   }
 }
