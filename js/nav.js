@@ -40,7 +40,7 @@ function updateNavOnLogin() {
 /** This function causes the new story form to appear on the page. */
 
 function showNewStoryForm(){
-  $("#nav-form").attr("display", "block");
+  $("#submit-form").show();
 }
 
 $("#nav-submit").on("click", showNewStoryForm)
