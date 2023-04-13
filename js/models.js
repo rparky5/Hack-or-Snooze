@@ -88,18 +88,12 @@ class StoryList {
       }
     });
 
-
-
     const data = response.data.story;
-    //console.log(data);
+    const addedStory = new Story(data);
 
-    let appendStory = new Story(
-      data.storyId, data.title, data.author, data.url, data.username, data.createdAt
-      )
-    // this.stories.pop();
-    // this.stories.unshift(appendStory)
+    this.stories.unshift(addedStory);
 
-    return appendStory;
+    return addedStory;
   }
 }
 

@@ -20,7 +20,7 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+  console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
   return $(`
@@ -32,7 +32,7 @@ function generateStoryMarkup(story) {
         <small class="story-author">by ${story.author}</small>
         <small class="story-user">posted by ${story.username}</small>
       </li>
-    `);storyList.stories
+    `);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -52,21 +52,18 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+
+/** Gets data from user submitted form, calls .addStory and puts the new story on the page */
 async function addNewStoryToStoryList(evt) {
   evt.preventDefault();
-  console.log('test');
+
   const author = $("#create-author").val();
   const title = $("#create-title").val();
   const url = $("#create-url").val();
 
-  // debugger;
-  storyList.addStory(currentUser, {title, author, url})
-
-  const updatedStoryList = await axios.get(`${BASE_URL}/stories`, {params:{skip:0, limit:25}})
-  //debugger;
-  storyList = updatedStoryList.data;
-  debugger;
-  putStoriesOnPage();
+  const story = await storyList.addStory(currentUser, {title, author, url})
+  const $story = generateStoryMarkup(story);
+  $allStoriesList.prepend($story);
 }
 
 $('#post-submit-btn').on('click', addNewStoryToStoryList)
