@@ -32,7 +32,7 @@ function generateStoryMarkup(story) {
         <small class="story-author">by ${story.author}</small>
         <small class="story-user">posted by ${story.username}</small>
       </li>
-    `);
+    `);storyList.stories
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -44,6 +44,7 @@ function putStoriesOnPage() {
 
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
+    //debugger;
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
   }
@@ -51,13 +52,22 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-function addNewStoryToStoryList(evt) {
-  // evt.preventDefault();
+async function addNewStoryToStoryList(evt) {
+  evt.preventDefault();
+  console.log('test');
   const author = $("#create-author").val();
   const title = $("#create-title").val();
   const url = $("#create-url").val();
 
   // debugger;
   storyList.addStory(currentUser, {title, author, url})
+
+  const updatedStoryList = await axios.get(`${BASE_URL}/stories`, {params:{skip:0, limit:25}})
+  //debugger;
+  storyList = updatedStoryList.data;
+  debugger;
+  putStoriesOnPage();
 }
+
+$('#post-submit-btn').on('click', addNewStoryToStoryList)
 

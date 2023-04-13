@@ -91,8 +91,15 @@ class StoryList {
 
 
     const data = response.data.story;
-    console.log(data);
-    return new Story(data.storyId, data.title, data.author, data.url, data.username, data.createdAt)
+    //console.log(data);
+
+    let appendStory = new Story(
+      data.storyId, data.title, data.author, data.url, data.username, data.createdAt
+      )
+    // this.stories.pop();
+    // this.stories.unshift(appendStory)
+
+    return appendStory;
   }
 }
 
