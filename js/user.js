@@ -124,8 +124,9 @@ function updateUIOnUserLogin() {
 }
 
 function favHandler(story) {
-
-  if (currentUser.favorites.includes(story)) {
+  const idArr = currentUser.favorites.map(favStory => favStory.storyId);
+  
+  if (idArr.includes(story.storyId)) {
     return "bi bi-star-fill"
   } else {
     return "bi bi-star"
@@ -133,15 +134,20 @@ function favHandler(story) {
 }
 
 function starClickHandler(){
-  //debugger;
-  console.log($(this).parent()[0].id)
+  let story;
+
+  for (let storyObj of storyList.stories) {
+    if ($(this).parent()[0].id === storyObj.storyId) {
+      story = storyObj;
+    }
+  }
+  console.log(story);
   if($(this).hasClass("bi-star-fill")){
-    $(this).attr('class', "bi bi-star")
-    //unFavorite(story)
-    
+    $(this).attr('class', "bi bi-star");
+    currentUser.unFavorite(story);
   } else{
-    $(this).attr('class', "bi bi-star-fill")
-    //addFavorite(story)
+    $(this).attr('class', "bi bi-star-fill");
+    currentUser.addFavorite(story);
   }
 }
 
