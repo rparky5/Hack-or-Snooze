@@ -23,7 +23,7 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-  
+
   return $(`
       <li id="${story.storyId}">
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -65,6 +65,8 @@ async function addNewStoryToStoryList(evt) {
   const story = await storyList.addStory(currentUser, {title, author, url})
   const $story = generateStoryMarkup(story);
   $allStoriesList.prepend($story);
+  $submitForm.hide();
+  $submitForm[0].reset();
 }
 
 $('#post-submit-btn').on('click', addNewStoryToStoryList)
