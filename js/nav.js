@@ -45,3 +45,4 @@ function showNewStoryForm(){
 }
 
 $("#nav-submit").on("click", showNewStoryForm)
+

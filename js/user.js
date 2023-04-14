@@ -124,8 +124,12 @@ function updateUIOnUserLogin() {
 }
 
 function favHandler(story) {
+  if (!currentUser) {
+    return '';
+  }
+
   const idArr = currentUser.favorites.map(favStory => favStory.storyId);
-  
+
   if (idArr.includes(story.storyId)) {
     return "bi bi-star-fill"
   } else {
