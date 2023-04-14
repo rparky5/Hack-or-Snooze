@@ -137,15 +137,20 @@ function favHandler(story) {
   }
 }
 
-function starClickHandler(){
-  let story //= storyFromStoryId;
+async function starClickHandler(){
+  let story;
+  const clickedStoryId = $(this).parent()[0].id;
 
   for (let storyObj of storyList.stories) {
-    if ($(this).parent()[0].id === storyObj.storyId) {
+    if (clickedStoryId === storyObj.storyId) {
       story = storyObj;
     }
   }
-  console.log(story);
+
+  if (!story) {
+    story = await Story.getStoryFromStoryId(clickedStoryId);
+  }
+
   if($(this).hasClass("bi-star-fill")){
     $(this).attr('class', "bi bi-star");
     currentUser.unFavorite(story);

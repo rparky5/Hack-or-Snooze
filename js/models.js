@@ -30,8 +30,14 @@ class Story {
     return objURL.hostname;
   }
 
-  static storyFromStoryId(){
-    return
+  
+  static async getStoryFromStoryId(id){
+    const response = await axios({
+      url: `${BASE_URL}/stories/${id}`,
+      method: "GET"
+  });
+
+  return new Story (response.data.story)
   }
 }
 
@@ -62,7 +68,7 @@ class StoryList {
     // query the /stories endpoint (no auth required)
     const response = await axios({
       url: `${BASE_URL}/stories`,
-      method: "GET",
+      method: "GET"
     });
 
     // turn plain old story objects from API into instances of Story class
@@ -238,7 +244,6 @@ class User {
    *
    */
   async unFavorite(story){
-    debugger;
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
