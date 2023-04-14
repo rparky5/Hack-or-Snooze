@@ -115,7 +115,8 @@ function updateUIOnUserLogin() {
   $allStoriesList.show();
 
   updateNavOnLogin();
-
+  putStoriesOnPage();
+  //updateIconsOnLogin();
   // update story list on login:
     // loop through stories
       // if user has story id in their favorites, filled star
@@ -123,11 +124,25 @@ function updateUIOnUserLogin() {
 }
 
 function favHandler(story) {
-  if (!currentUser) {
-    return '';
-  } else if (currentUser.favorites.includes(story.storyId)) {
+
+  if (currentUser.favorites.includes(story)) {
     return "bi bi-star-fill"
   } else {
     return "bi bi-star"
   }
 }
+
+function starClickHandler(){
+  //debugger;
+  console.log($(this).parent()[0].id)
+  if($(this).hasClass("bi-star-fill")){
+    $(this).attr('class', "bi bi-star")
+    //unFavorite(story)
+    
+  } else{
+    $(this).attr('class', "bi bi-star-fill")
+    //addFavorite(story)
+  }
+}
+
+$allStoriesList.on('click', 'i', starClickHandler);

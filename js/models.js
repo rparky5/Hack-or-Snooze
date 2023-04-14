@@ -51,7 +51,7 @@ class StoryList {
 
   static async getStories() {
     // Note presence of `static` keyword: this indicates that getStories is
-    //  **not** an instance method. Rather, it is a method that is called on the
+    //  **not** an instance methodaddFavorite(story). Rather, it is a method that is called on the
     //  class directly. Why doesn't it make sense for getStories to be an
     //  instance method?
 
@@ -213,9 +213,10 @@ class User {
       return null;
     }
   }
-
+  /**
+   *
+   */
   async addFavorite(story){
-    //debugger;
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
@@ -224,10 +225,14 @@ class User {
             }
     });
 
+    this.favorites.push(story);
 
     return response;
   }
 
+   /**
+   *
+   */
   async unFavorite(story){
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
@@ -236,6 +241,10 @@ class User {
             "token": this.loginToken
             }
     });
+
+
+    let removeIndex = this.favorites.indexOf(story)
+    this.favorites.splice(removeIndex, 1);
 
     return response;
   }
