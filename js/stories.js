@@ -46,8 +46,8 @@ function putStoriesOnPage() {
 
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
-    //debugger;
     const $story = generateStoryMarkup(story);
+
     $allStoriesList.append($story);
   }
 
@@ -78,8 +78,9 @@ async function addNewStoryToStoryList(evt) {
   const title = $("#create-title").val();
   const url = $("#create-url").val();
 
-  const story = await storyList.addStory(currentUser, {title, author, url})
+  const story = await storyList.addStory(currentUser, { title, author, url });
   const $story = generateStoryMarkup(story);
+
   $allStoriesList.prepend($story);
   $submitForm.hide();
   $submitForm[0].reset();
@@ -87,3 +88,48 @@ async function addNewStoryToStoryList(evt) {
 
 $('#post-submit-btn').on('click', addNewStoryToStoryList)
 
+/**
+ * TODO: doc string
+ */
+function favHandler(story) {
+  if (!currentUser) {
+    return '';
+  }
+
+  const idArr = currentUser.favorites.map(favStory => favStory.storyId);
+
+  if (idArr.includes(story.storyId)) {
+    return "bi bi-star-fill";
+  } else {
+    return "bi bi-star";
+  }
+}
+
+/**
+ * TODO: doc string
+ */
+async function starClickHandler() {
+  let story;
+  const clickedStoryId = $(this).parent()[0].id;
+
+  for (let storyObj of storyList.stories) {
+    if (clickedStoryId === storyObj.storyId) {
+      story = storyObj;
+    }
+  }
+
+  if (!story) {
+    story = await Story.getStoryFromStoryId(clickedStoryId);
+  }
+
+  if ($(this).hasClass("bi-star-fill")) {
+    $(this).attr('class', "bi bi-star");
+    currentUser.unFavorite(story);
+  } else {
+    $(this).attr('class', "bi bi-star-fill");
+    currentUser.addFavorite(story);
+  }
+}
+
+$allStoriesList.on('click', 'i', starClickHandler);
+$favStoriesList.on('click', 'i', starClickHandler);

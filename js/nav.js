@@ -39,16 +39,18 @@ function updateNavOnLogin() {
 }
 
 /** This function causes the new story form to appear on the page. */
-function showNewStoryForm(){
+function showNewStoryForm() {
   $submitForm.show();
   $allStoriesList.show();
   $favStoriesList.hide();
 }
 
-$("#nav-submit").on("click", showNewStoryForm)
+$("#nav-submit").on("click", showNewStoryForm);
 
-/** */
-function showFavorites(){
+/**
+ * TODO: doc string
+*/
+function showFavorites() {
   hidePageComponents();
   putFavoriteStoriesOnPage();
 }

@@ -10,12 +10,12 @@ const $favStoriesList = $("#favorite-stories-list");
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
+const $submitForm = $('#submit-form');
 
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 const $navLeft = $(".nav-left");
-const $submitForm = $('#submit-form');
 
 
 /** To make it easier for individual components to show just themselves, this

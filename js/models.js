@@ -30,14 +30,16 @@ class Story {
     return objURL.hostname;
   }
 
-  
-  static async getStoryFromStoryId(id){
+  /**
+   * TODO: doc string
+   */
+  static async getStoryFromStoryId(id) {
     const response = await axios({
       url: `${BASE_URL}/stories/${id}`,
       method: "GET"
-  });
+    });
 
-  return new Story (response.data.story)
+    return new Story(response.data.story);
   }
 }
 
@@ -120,13 +122,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
@@ -224,15 +226,15 @@ class User {
     }
   }
   /**
-   *
+   * TODO: doc string
    */
-  async addFavorite(story){
+  async addFavorite(story) {
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
       data: {
-            "token": this.loginToken
-            }
+        "token": this.loginToken
+      }
     });
 
     this.favorites.unshift(story);
@@ -240,20 +242,20 @@ class User {
     return response;
   }
 
-   /**
-   *
-   */
-  async unFavorite(story){
+  /**
+  * TODO: doc string
+  */
+  async unFavorite(story) {
     const response = await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
       data: {
-            "token": this.loginToken
-            }
+        "token": this.loginToken
+      }
     });
 
 
-    let removeIndex = this.favorites.indexOf(story)
+    let removeIndex = this.favorites.indexOf(story);
     this.favorites.splice(removeIndex, 1);
 
     return response;
