@@ -55,13 +55,13 @@ function putStoriesOnPage() {
 }
 
 /**
- *
+ * appends and displays user's favorite stories in $favStoriesList
  */
 function putFavoriteStoriesOnPage() {
   $favStoriesList.empty();
 
   //if user has no favorites yet, fill the list with a placeholder
-  if(currentUser.favorites.length === 0){
+  if (currentUser.favorites.length === 0) {
     const $noFavs = $('<p> No favorites added! </p>');
     $favStoriesList.append($noFavs);
     $favStoriesList.show();
@@ -78,32 +78,56 @@ function putFavoriteStoriesOnPage() {
 }
 
 
-/** Gets data from user submitted form, calls .addStory and puts the new story on the page */
-async function addNewStoryToStoryList(evt) {
-  evt.preventDefault();
 
+/**
+ * Gets data from user submitted form,
+ * calls storyList.addStory and appends story to storyList;
+ */
+async function addNewStoryToStoryList() {
   const author = $("#create-author").val();
   const title = $("#create-title").val();
   const url = $("#create-url").val();
 
   const story = await storyList.addStory(currentUser, { title, author, url });
+
+  return story;
+}
+
+/**
+ * UI changes to DOM after submitting a new story
+ */
+function addNewStoryToPage(story) {
   const $story = generateStoryMarkup(story);
 
   $allStoriesList.prepend($story);
+
   $submitForm.hide();
   $submitForm[0].reset();
 }
 
-$('#post-submit-btn').on('click', addNewStoryToStoryList);
+/**
+ * handles click on submit button for new story
+ */
+async function handleSubmitNewStory(evt) {
+  evt.preventDefault();
+
+  const newStory = await addNewStoryToStoryList();
+
+  addNewStoryToPage(newStory);
+}
+
+$('#post-submit-btn').on('click', handleSubmitNewStory);
 
 /**
- * TODO: doc string
+ * accepts a Story instance
+ * returns the name of the class of an icon based on if the story is favorited
  */
 function favHandler(story) {
   if (!currentUser) {
     return '';
   }
 
+  //array of all storyIds
   const idArr = currentUser.favorites.map(favStory => favStory.storyId);
 
   if (idArr.includes(story.storyId)) {
@@ -114,22 +138,26 @@ function favHandler(story) {
 }
 
 /**
- * TODO: doc string
+ * handles all actions when clicking on a star icon in the DOM
+ * i.e. favorite->unfavorite or unfavorite->favorite
  */
 async function starClickHandler() {
   let story;
   const clickedStoryId = $(this).parent()[0].id;
 
+  //find story with clickedStoryId in storyList
   for (let storyObj of storyList.stories) {
     if (clickedStoryId === storyObj.storyId) {
       story = storyObj;
     }
   }
 
+  //if story with clickedStoryId is not in storyList then get it from the server
   if (!story) {
     story = await Story.getStoryFromStoryId(clickedStoryId);
   }
 
+  //if story is favorited, then unfavorite. else, add to favorites
   if ($(this).hasClass("bi-star-fill")) {
     $(this).attr('class', "bi bi-star");
     currentUser.unFavorite(story);
