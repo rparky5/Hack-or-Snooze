@@ -257,4 +257,8 @@ class User {
     this.favorites.splice(removeIndex, 1);
   }
 
+  /** return true if story is favorited, otherwise return false */
+  isFavorite(story) {
+    return this.favorites.some(favStory => favStory.storyId === story.storyId);
+  }
 }

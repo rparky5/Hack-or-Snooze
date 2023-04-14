@@ -127,14 +127,7 @@ function favHandler(story) {
     return '';
   }
 
-  //array of all storyIds
-  const idArr = currentUser.favorites.map(favStory => favStory.storyId);
-
-  if (idArr.includes(story.storyId)) {
-    return "bi bi-star-fill";
-  } else {
-    return "bi bi-star";
-  }
+  return currentUser.isFavorite(story) ? "bi bi-star-fill" : "bi bi-star";
 }
 
 /**
