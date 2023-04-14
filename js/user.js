@@ -138,7 +138,7 @@ function favHandler(story) {
 }
 
 function starClickHandler(){
-  let story;
+  let story //= storyFromStoryId;
 
   for (let storyObj of storyList.stories) {
     if ($(this).parent()[0].id === storyObj.storyId) {
@@ -156,3 +156,4 @@ function starClickHandler(){
 }
 
 $allStoriesList.on('click', 'i', starClickHandler);
+$favStoriesList.on('click', 'i', starClickHandler);
