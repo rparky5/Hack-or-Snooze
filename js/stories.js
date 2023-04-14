@@ -60,6 +60,14 @@ function putStoriesOnPage() {
 function putFavoriteStoriesOnPage() {
   $favStoriesList.empty();
 
+  //if user has no favorites yet, fill the list with a placeholder
+  if(currentUser.favorites.length === 0){
+    const $noFavs = $('<p> No favorites added! </p>');
+    $favStoriesList.append($noFavs);
+    $favStoriesList.show();
+    return;
+  }
+
   // loop through all of our favorite stories and generate HTML for them
   for (let story of currentUser.favorites) {
     const $story = generateStoryMarkup(story);
@@ -86,7 +94,7 @@ async function addNewStoryToStoryList(evt) {
   $submitForm[0].reset();
 }
 
-$('#post-submit-btn').on('click', addNewStoryToStoryList)
+$('#post-submit-btn').on('click', addNewStoryToStoryList);
 
 /**
  * TODO: doc string
