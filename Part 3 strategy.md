@@ -13,4 +13,5 @@ Marking stories as favorites
      - data: {
                 "token": user.loginToken
             }
-    - UI: 
+    - added star icons depending on favorites array
+    - need to handle click on stars

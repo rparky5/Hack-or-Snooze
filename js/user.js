@@ -109,10 +109,25 @@ function saveUserCredentialsInLocalStorage() {
 
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
-  
+
   hidePageComponents();
 
   $allStoriesList.show();
 
   updateNavOnLogin();
+
+  // update story list on login:
+    // loop through stories
+      // if user has story id in their favorites, filled star
+      // else empty star
+}
+
+function favHandler(story) {
+  if (!currentUser) {
+    return '';
+  } else if (currentUser.favorites.includes(story.storyId)) {
+    return "bi bi-star-fill"
+  } else {
+    return "bi bi-star"
+  }
 }
