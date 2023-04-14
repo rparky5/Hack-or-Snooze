@@ -48,7 +48,7 @@ function showNewStoryForm() {
 $("#nav-submit").on("click", showNewStoryForm);
 
 /**
- * TODO: doc string
+ * displays users favorited stories
 */
 function showFavorites() {
   hidePageComponents();

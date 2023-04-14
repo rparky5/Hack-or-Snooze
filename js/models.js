@@ -31,7 +31,8 @@ class Story {
   }
 
   /**
-   * TODO: doc string
+   * gets a story from the api with an arbitrary story id number
+   * returns a new story instance of that story
    */
   static async getStoryFromStoryId(id) {
     const response = await axios({
@@ -226,10 +227,10 @@ class User {
     }
   }
   /**
-   * TODO: doc string
+   * adds a story to a user's favorites on the server as well as on local memory
    */
   async addFavorite(story) {
-    const response = await axios({
+    await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
       data: {
@@ -238,15 +239,13 @@ class User {
     });
 
     this.favorites.unshift(story);
-
-    return response;
   }
 
   /**
-  * TODO: doc string
+  * removes a story from a user's favorites on the server as well as on local memory
   */
   async unFavorite(story) {
-    const response = await axios({
+    await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
       data: {
@@ -254,11 +253,8 @@ class User {
       }
     });
 
-
-    let removeIndex = this.favorites.indexOf(story);
+    const removeIndex = this.favorites.indexOf(story);
     this.favorites.splice(removeIndex, 1);
-
-    return response;
   }
 
 }
